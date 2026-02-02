@@ -14,11 +14,16 @@ import { AtmService } from './providers/atm.service';
 @Controller('atm')
 export class AtmController {
   constructor(private readonly atmService: AtmService) {}
-  @Post()
+  @Post('register')
   createAccount(@Body() createAccountDto: CreateAccountDto) {}
 
-  @Post()
-  depositMoney(@Body() depositDto: DepositDto) {}
+  @Post(':id/deposit')
+  depositMoney(
+    @Param('id', ParseIntPipe) accountId: number,
+    @Body() depositDto: DepositDto,
+  ) {
+    return this.atmService.deposit(accountId, depositDto.amount)
+  }
 
   @Post(':id/withdraw')
   withdrawMoney(
@@ -29,7 +34,7 @@ export class AtmController {
   }
 
   @Get(':id')
-  checkBalance(@Param('id', ParseIntPipe) accountId: number ) {
-    return this.atmService.getAccountBalance(accountId)
+  checkBalance(@Param('id', ParseIntPipe) accountId: number) {
+    return this.atmService.getAccountBalance(accountId);
   }
 }

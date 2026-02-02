@@ -38,6 +38,16 @@ export class AtmService {
     return account;
   }
 
+  public deposit(accountId: number, amount: number) {
+    if (amount <= 0)
+      throw new BadRequestException('Amount must be greater than 0. ');
+
+    const account = this.findAccount(accountId);
+
+    account.balance += amount;
+
+    return account;
+  }
   public withdraw(accountId: number, amount: number) {
     if (amount <= 0)
       throw new BadRequestException('Amount must be greater than 0.');
@@ -51,16 +61,13 @@ export class AtmService {
     account.balance -= amount;
 
     return account;
-
-
   }
-  public getAccountBalance(accountId:number) {
+  public getAccountBalance(accountId: number) {
+    const account = this.findAccount(accountId);
 
-
-    const account = this.findAccount(accountId)
-    
-    
-    
-    return account.balance
+    return {
+      owner: account.owner,
+      balance: account.balance,
+    };
   }
 }
