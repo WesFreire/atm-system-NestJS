@@ -9,7 +9,6 @@ import {
 import { DepositDto } from './dtos/deposit.dto';
 import { WithdrawDto } from './dtos/withdraw.dto';
 import { CreateAccountDto } from './dtos/create-account.dto';
-import { GetAccountParamDto } from './dtos/get-account-param-dto';
 import { AtmService } from './providers/atm.service';
 
 @Controller('atm')
@@ -29,6 +28,8 @@ export class AtmController {
     return this.atmService.withdraw(accountId, withdrawDto.amount);
   }
 
-  @Get('./:id')
-  checkBalance(@Param() getAccountParamDto: GetAccountParamDto) {}
+  @Get(':id')
+  checkBalance(@Param('id', ParseIntPipe) accountId: number ) {
+    return this.atmService.getAccountBalance(accountId)
+  }
 }

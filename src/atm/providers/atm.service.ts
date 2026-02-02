@@ -48,12 +48,19 @@ export class AtmService {
       throw new BadRequestException('Insufficient funds');
     }
 
-    if (account.id != accountId) {
-      throw new BadRequestException('Not your account. ');
-    }
-
     account.balance -= amount;
 
     return account;
+
+
+  }
+  public getAccountBalance(accountId:number) {
+
+
+    const account = this.findAccount(accountId)
+    
+    
+    
+    return account.balance
   }
 }
